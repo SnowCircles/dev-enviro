@@ -1,5 +1,5 @@
-#sudo apt-get update
-sudo apt-get install git curl apache2 mysql-server libapache2-mod-auth-mysql php5-mysql php5 php5-cli libapache2-mod-php5 php5-mcrypt phpmyadmin -y
+sudo apt-get update
+sudo apt-get install git curl apache2 mysql-server libapache2-mod-auth-mysql php5-mysql php5 php5-cli libapache2-mod-php5 php5-mcrypt phpmyadmin gawk, g++, gcc, libc6-dev, libreadline6-dev, zlib1g-dev, libssl-dev, libyaml-dev, libsqlite3-dev, sqlite3, autoconf, libgdbm-dev, libncurses5-dev, automake, libtool, bison, pkg-config, libffi-dev -y
 
 sudo mysql_install_db
 sudo /usr/bin/mysql_secure_installation
