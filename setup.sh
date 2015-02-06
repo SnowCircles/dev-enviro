@@ -22,7 +22,7 @@ sudo cp composer.phar /usr/bin/composer
 sudo service apache2 restart
 
 # install ruby and rubygems
-
+gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 # Checking if RVM is installed
 if ! [ -d "~/.rvm" ]; then
     echo "Installing RVM..."
