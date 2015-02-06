@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #sudo apt-get update
 sudo apt-get install git curl apache2 mysql-server libapache2-mod-auth-mysql php5-mysql php5 php5-cli libapache2-mod-php5 php5-mcrypt phpmyadmin -y
 
