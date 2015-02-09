@@ -32,8 +32,8 @@ cat > ~/sites/ssl/ssl-shared-cert.inc <<EOFSSL
 SSLEngine On
 SSLProtocol all -SSLv2 -SSLv3
 SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
-SSLCertificateFile "${USERHOME}/sites/ssl/selfsigned.crt"
-SSLCertificateKeyFile "${USERHOME}/sites/ssl/private.key"
+SSLCertificateFile "${userhome}/sites/ssl/selfsigned.crt"
+SSLCertificateKeyFile "${userhome}/sites/ssl/private.key"
 EOFSSL
 
 # Add auto virtual host config to apache
