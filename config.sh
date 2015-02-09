@@ -86,7 +86,7 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
   CustomLog "${userhome}/sites/logs/dev-access_log" combinedmassvhost
   ErrorLog "${userhome}/sites/logs/dev-error_log"
 
-  VirtualDocumentRoot ${userhome}/sites/%-2+
+  VirtualDocumentRoot ${userhome}/sites/%-2+/www
 </VirtualHost>
 <VirtualHost *:443>
   ServerName dev
