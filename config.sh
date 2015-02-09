@@ -4,8 +4,8 @@
 userhome="$HOME"
 
 # dnsmasq setup
-sudo bash -c "echo 'address=/.dev/127.0.0.1' > /etc/NetworkManager/dnsmasq.d/dnsmasq.conf"
-sudo bash -c "echo 'listen-address=127.0.0.1' >> /etc/NetworkManager/dnsmasq.d/dnsmasq.conf"
+echo 'address=/.dev/127.0.0.1' | sudo tee /etc/NetworkManager/dnsmasq.d/dnsmasq.conf
+echo 'listen-address=127.0.0.1' | sudo tee -a /etc/NetworkManager/dnsmasq.d/dnsmasq.conf
 
 # Create sites directory in user's home
 mkdir -pv $userhome/sites
@@ -37,7 +37,7 @@ SSLCertificateKeyFile "${userhome}/sites/ssl/private.key"
 EOFSSL
 
 # Add auto virtual host config to apache
-sudo cat > /etc/apache2/sites-available/auto_vhosts.conf <<EOFAPACHE
+cat > /tmp/auto_vhosts.conf <<EOFAPACHE
 #
 # Set up permissions for VirtualHosts in ~/sites
 #
@@ -99,6 +99,9 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
   VirtualDocumentRoot ${userhome}/sites/%-2+/www
 </VirtualHost>
 EOFAPACHE
+
+sudo cp /tmp/auto_vhosts.conf /etc/apache2/sites-available/auto_vhosts.conf
+rm /tmp/auto_vhosts.conf
 
 # Enable necessary modules to apache
 sudo a2enmod vhost_alias
