@@ -24,24 +24,24 @@ openssl req \
   -nodes \
   -x509 \
   -subj "/C=US/ST=State/L=City/O=Organization/OU=$(whoami)/CN=*.dev" \
-  -keyout ~/Sites/ssl/private.key \
-  -out ~/Sites/ssl/selfsigned.crt
+  -keyout ~/sites/ssl/private.key \
+  -out ~/sites/ssl/selfsigned.crt
 
 # Create config file for inclusion of ssl
-cat > ~/Sites/ssl/ssl-shared-cert.inc <<EOFSSL
+cat > ~/sites/ssl/ssl-shared-cert.inc <<EOFSSL
 SSLEngine On
 SSLProtocol all -SSLv2 -SSLv3
 SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
-SSLCertificateFile "${USERHOME}/Sites/ssl/selfsigned.crt"
-SSLCertificateKeyFile "${USERHOME}/Sites/ssl/private.key"
+SSLCertificateFile "${USERHOME}/sites/ssl/selfsigned.crt"
+SSLCertificateKeyFile "${USERHOME}/sites/ssl/private.key"
 EOFSSL
 
 # Add auto virtual host config to apache
 sudo cat > /etc/apache2/sites-available/auto_vhosts.conf <<EOFAPACHE
 #
-# Set up permissions for VirtualHosts in ~/Sites
+# Set up permissions for VirtualHosts in ~/sites
 #
-<Directory "${userhome}/Sites">
+<Directory "${userhome}/sites">
     Options Indexes FollowSymLinks MultiViews
     AllowOverride All
     <IfModule mod_authz_core.c>
@@ -53,15 +53,15 @@ sudo cat > /etc/apache2/sites-available/auto_vhosts.conf <<EOFAPACHE
     </IfModule>
 </Directory>
 
-# For http://localhost in the users' Sites folder
+# For http://localhost in the users' sites folder
 <VirtualHost _default_:80>
     ServerName localhost
-    DocumentRoot "${userhome}/Sites"
+    DocumentRoot "${userhome}/sites"
 </VirtualHost>
 <VirtualHost _default_:443>
     ServerName localhost
-    Include "${userhome}/Sites/ssl/ssl-shared-cert.inc"
-    DocumentRoot "${userhome}/Sites"
+    Include "${userhome}/sites/ssl/ssl-shared-cert.inc"
+    DocumentRoot "${userhome}/sites"
 </VirtualHost>
 
 #
@@ -71,7 +71,7 @@ sudo cat > /etc/apache2/sites-available/auto_vhosts.conf <<EOFAPACHE
 #
 # Automatic VirtualHosts
 #
-# A directory at ${userhome}/Sites/webroot/www can be accessed at http://webroot.dev
+# A directory at ${userhome}/sites/webroot/www can be accessed at http://webroot.dev
 # In some cases you need to add this rule to .htaccess: RewriteBase /
 #
 
@@ -83,20 +83,20 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
   ServerName dev
   ServerAlias *.dev
 
-  CustomLog "${userhome}/Sites/logs/dev-access_log" combinedmassvhost
-  ErrorLog "${userhome}/Sites/logs/dev-error_log"
+  CustomLog "${userhome}/sites/logs/dev-access_log" combinedmassvhost
+  ErrorLog "${userhome}/sites/logs/dev-error_log"
 
-  VirtualDocumentRoot ${userhome}/Sites/%-2+
+  VirtualDocumentRoot ${userhome}/sites/%-2+
 </VirtualHost>
 <VirtualHost *:443>
   ServerName dev
   ServerAlias *.dev
-  Include "${userhome}/Sites/ssl/ssl-shared-cert.inc"
+  Include "${userhome}/sites/ssl/ssl-shared-cert.inc"
 
-  CustomLog "${userhome}/Sites/logs/dev-access_log" combinedmassvhost
-  ErrorLog "${userhome}/Sites/logs/dev-error_log"
+  CustomLog "${userhome}/sites/logs/dev-access_log" combinedmassvhost
+  ErrorLog "${userhome}/sites/logs/dev-error_log"
 
-  VirtualDocumentRoot ${userhome}/Sites/%-2+/www
+  VirtualDocumentRoot ${userhome}/sites/%-2+/www
 </VirtualHost>
 EOFAPACHE
 
